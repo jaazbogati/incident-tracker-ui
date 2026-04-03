@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-    baseURL: "http://incident-tracker-api-f0cj.onrender.com/api/v1",
+    baseURL: "https://incident-tracker-api-f0cj.onrender.com/api/v1",
 });
 
 //Attach token automatically
