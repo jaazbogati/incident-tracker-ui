@@ -5,6 +5,14 @@ import Navbar from "../components/Navbar";
 export default function Users() {
     const [users, setUsers] = useState([]);
     const [loading , setLoading] = useState(true);
+    const [search, setSearch] = useState("");
+    const [roleFilter, setRoleFilter] = useState("");
+
+    const filterdUsers = users.filter(u => {
+        const matchesSearch = u.email.toLowerCase().includes(search.toLowerCase());
+        const matchesRole = roleFilter ? u.role === roleFilter : true;
+        return matchesSearch && matchesRole;
+    });
 
     useEffect(() => {
         API.get("/users")
@@ -24,6 +32,26 @@ export default function Users() {
             <div className="p-6">
                 <h2 className="text-xl mb-4">Users</h2>
 
+                <div className="mb-4 flex gap-4">
+                    <input 
+                        type="text"
+                        placeholder="Search by email..."
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
+                        className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <select 
+                        value={roleFilter}
+                        onChange={e => setRoleFilter(e.target.value)}
+                        className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                        <option value="">All Roles</option>
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                        <option value="superuser">SuperUser</option>
+                    </select>
+                </div>
+
                 {loading ? (
                     <p>Loading...</p>
                 ) : (
@@ -36,7 +64,7 @@ export default function Users() {
                             </tr>
                         </thead>
                         <tbody>
-                            {users.map(u => (
+                            {filteredUsers.map(u => (
                                 <tr key={u.id} className="hover:bg-gray-50">
                                     <td className="p-2 border">{u.email}</td>
                                     <td className="p-2 border">{u.role}</td>
