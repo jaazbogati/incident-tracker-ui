@@ -25,6 +25,13 @@ export default function Users() {
         }
     };
 
+    const currentUserId = localStorage.getItem("user_id");
+
+    if (currentUserId && parseInt(currentUserId) === id) {
+        alert("You cannot delete your own account");
+        return null;
+    }
+
     useEffect(() => {
         API.get("/users")
             .then(res => {
@@ -77,14 +84,14 @@ export default function Users() {
                         </thead>
                         <tbody>
                             {filteredUsers.map(u => (
-                                <tr key={u.id} className="hover:bg-gray-50">
+                                <tr key={u.id} className="hover:bg-blue-400 text-gray-950">
                                     <td className="p-2 border">{u.email}</td>
                                     <td className="p-2 border">{u.role}</td>
                                     <td className="p-2 border">{u.is_active ? "Active" : "Inactive"}</td>
                                     <td className="p-2 border">
                                         <button
                                             onClick={() => handleDelete(u.id)}
-                                            className="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded"
+                                            className="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded flex items-center"
                                         >
                                             Delete
                                         </button>
