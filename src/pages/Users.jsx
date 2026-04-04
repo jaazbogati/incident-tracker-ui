@@ -18,7 +18,7 @@ export default function Users() {
         if (!confirm("Are you sure you want to delete this user?")) return;
 
         const currentUserId = localStorage.getItem("user_id");
-        if (currentUserId && parseInt(currentUserId) === id) {
+        if (id === currentUserId) {
             alert("You cannot delete your own account");
             return;
         }
