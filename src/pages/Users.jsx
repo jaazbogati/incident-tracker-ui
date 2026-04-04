@@ -17,6 +17,12 @@ export default function Users() {
     const handleDelete = async (id) => {
         if (!confirm("Are you sure you want to delete this user?")) return;
 
+        const currentUserId = localStorage.getItem("user_id");
+        if (currentUserId && parseInt(currentUserId) === id) {
+            alert("You cannot delete your own account");
+            return;
+        }
+
         try {
             await API.delete(`/users/${id}`);
             setUsers(prev => prev.filter(u => u.id !== id));
@@ -24,13 +30,6 @@ export default function Users() {
             alert("Failed to delete user");
         }
     };
-
-    const currentUserId = localStorage.getItem("user_id");
-
-    if (currentUserId && parseInt(currentUserId) === id) {
-        alert("You cannot delete your own account");
-        return null;
-    }
 
     useEffect(() => {
         API.get("/users")
