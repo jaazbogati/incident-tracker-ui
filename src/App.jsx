@@ -3,6 +3,7 @@ import Login from "./pages/Login";
 import Users from "./pages/Users";
 import Dashboard from "./pages/Dashboard";
 import Incidents from "./pages/Incidents";
+import Reports from "./pages/Reports";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
