@@ -27,7 +27,7 @@ export default function Users() {
                 {loading ? (
                     <p>Loading...</p>
                 ) : (
-                    <table className="w-full border">
+                    <table className="w-full border rounded overflow-hidden">
                         <thead>
                             <tr className="bg-gray-100">
                                 <th className="p-2 border">Email</th>
@@ -37,7 +37,7 @@ export default function Users() {
                         </thead>
                         <tbody>
                             {users.map(u => (
-                                <tr key={u.id}>
+                                <tr key={u.id} className="hover:bg-gray-50">
                                     <td className="p-2 border">{u.email}</td>
                                     <td className="p-2 border">{u.role}</td>
                                     <td className="p-2 border">{u.is_active ? "Active" : "Inactive"}</td>

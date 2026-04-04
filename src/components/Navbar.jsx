@@ -33,6 +33,9 @@ export default function Navbar() {
                 <Link to="/reports" className={linkClass("/reports")}>
                     Reports
                 </Link>
+                <Link to="/users" className={linkClass("/users")}>
+                    Users
+                </Link>
             </div>
             
             {/* Logout Button */}
