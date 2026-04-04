@@ -8,7 +8,7 @@ export default function Users() {
     const [search, setSearch] = useState("");
     const [roleFilter, setRoleFilter] = useState("");
 
-    const filterdUsers = users.filter(u => {
+    const filteredUsers = users.filter(u => {
         const matchesSearch = u.email.toLowerCase().includes(search.toLowerCase());
         const matchesRole = roleFilter ? u.role === roleFilter : true;
         return matchesSearch && matchesRole;
