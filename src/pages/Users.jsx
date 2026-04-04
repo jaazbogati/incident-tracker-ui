@@ -14,6 +14,17 @@ export default function Users() {
         return matchesSearch && matchesRole;
     });
 
+    const handleDelete = async (id) => {
+        if (!confirm("Are you sure you want to delete this user?")) return;
+
+        try {
+            await API.delete(`/users/${id}`);
+            setUsers(prev => prev.filter(u => u.id !== id));
+        } catch {
+            alert("Failed to delete user");
+        }
+    };
+
     useEffect(() => {
         API.get("/users")
             .then(res => {
@@ -61,6 +72,7 @@ export default function Users() {
                                 <th className="p-2 border">Email</th>
                                 <th className="p-2 border">Role</th>
                                 <th className="p-2 border">Status</th>
+                                <th className="p-2 border">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -69,6 +81,14 @@ export default function Users() {
                                     <td className="p-2 border">{u.email}</td>
                                     <td className="p-2 border">{u.role}</td>
                                     <td className="p-2 border">{u.is_active ? "Active" : "Inactive"}</td>
+                                    <td className="p-2 border">
+                                        <button
+                                            onClick={() => handleDelete(u.id)}
+                                            className="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded"
+                                        >
+                                            Delete
+                                        </button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
