@@ -8,6 +8,8 @@ export default function Users() {
     const [search, setSearch] = useState("");
     const [roleFilter, setRoleFilter] = useState("");
     const [showForm, setShowForm] = useState(false);
+    const [editingUserId, setEditingUserId] = useState(null);
+    const [editedRole, setEditedRole] = useState("");
 
     const [newUser, setNewUser] = useState({
         email: "",
@@ -41,6 +43,20 @@ export default function Users() {
             setNewUser({ email: "", password: "", role: "user" });
         } catch {
             alert("Failed to create user");
+        }
+    };
+
+    const handleUpdateUser = async (id) => {
+        try {
+            await API.patch(`/users/${id}/role`, { role: editedRole });
+
+            setUsers(prev => 
+                prev.map(u => 
+                    u.id === id ? { ...u, role: editedRole } : u));
+            setEditingUserId(null);
+            setEditedRole("");
+        } catch {
+            alert("Failed to update user");     
         }
     };
 
@@ -141,11 +157,43 @@ export default function Users() {
                         </thead>
                         <tbody>
                             {filteredUsers.map(u => (
-                                <tr key={u.id} className="hover:bg-blue-400 text-gray-450">
+                                <tr key={u.id} className="hover:bg-slate-300 text-gray-650">
                                     <td className="p-2 border">{u.email}</td>
-                                    <td className="p-2 border">{u.role}</td>
-                                    <td className="p-2 border">{u.is_active ? "Active" : "Inactive"}</td>
                                     <td className="p-2 border">
+                                        {editingUserId === u.id ? (
+                                            <select
+                                                value={editedRole}
+                                                onChange={e => setEditedRole(e.target.value)}
+                                                className="border rounded py-1 px-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            >
+                                                <option value="user">User</option>
+                                                <option value="admin">Admin</option>
+                                                <option value="superuser">SuperUser</option>
+                                            </select>
+                                        ) : (
+                                            u.role
+                                        )}
+                                    </td>
+                                    <td className="p-2 border">{u.is_active ? "Active" : "Inactive"}</td>
+                                    <td className="p-2 border flex gap-2">
+                                        {editingUserId === u.id ? (
+                                            <button
+                                                onClick={() => handleUpdateUser(u.id)}
+                                                className="bg-green-500 hover:bg-green-700 text-white py-1 px-2 rounded flex items-center"
+                                            >
+                                                Save    
+                                            </button>
+                                        ) : (
+                                            <button
+                                                onClick={() => {
+                                                    setEditingUserId(u.id);
+                                                    setEditedRole(u.role);
+                                                }}
+                                                className="bg-yellow-500 hover:bg-yellow-700 text-white py-1 px-2 rounded flex items-center"
+                                            >
+                                                Edit Role
+                                            </button>
+                                        )}
                                         <button
                                             onClick={() => handleDeactivate(u.id)}
                                             className="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded flex items-center"
