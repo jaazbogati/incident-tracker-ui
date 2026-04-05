@@ -7,6 +7,13 @@ export default function Users() {
     const [loading , setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [roleFilter, setRoleFilter] = useState("");
+    const [showForm, setShowForm] = useState(false);
+
+    const [newUser, setNewUser] = useState({
+        email: "",
+        password: "",
+        role: "user"
+    });
 
     const filteredUsers = users.filter(u => {
         const matchesSearch = u.email.toLowerCase().includes(search.toLowerCase());
@@ -22,6 +29,18 @@ export default function Users() {
             setUsers(prev => prev.filter(u => u.id !== id));
         } catch {
             alert("Failed to delete user");
+        }
+    };
+
+    const handleCreateUser = async () => {
+        try {
+            await API.post("/users", newUser);
+            const res = await API.get("/users");
+            setUsers(res.data.data);
+            setShowForm(false);
+            setNewUser({ email: "", password: "", role: "user" });
+        } catch {
+            alert("Failed to create user");
         }
     };
 
@@ -42,6 +61,51 @@ export default function Users() {
             <Navbar />
             <div className="p-6">
                 <h2 className="text-xl mb-4">Users</h2>
+
+                <div className="flex justify-between mb-4">
+                    <h1 className="text-xl font-semibold">User Management</h1>
+                    <button
+                        onClick={() => setShowForm(!showForm)}
+                        className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded"
+                    >
+                        {showForm ? "Cancel" : "+ Create User"}
+                    </button>
+                </div>
+
+                {showForm && (
+                    <div className="bg-gray-100 mb-4 p-4 border rounded flex gap-4 items-center">
+                        <h3 className="text-lg font-semibold mb-2">Create User</h3>
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={newUser.email}
+                            onChange={e => setNewUser({...newUser, email: e.target.value})}
+                            className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            value={newUser.password}
+                            onChange={e => setNewUser({...newUser, password: e.target.value})}
+                            className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                        <select
+                            value={newUser.role}
+                            onChange={e => setNewUser({...newUser, role: e.target.value})}
+                            className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                            <option value="superuser">SuperUser</option>
+                        </select>
+                        <button
+                            onClick={handleCreateUser}
+                            className="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
+                        >
+                            Create User
+                        </button>
+                    </div>
+                )}
 
                 <div className="mb-4 flex gap-4">
                     <input 
@@ -77,7 +141,7 @@ export default function Users() {
                         </thead>
                         <tbody>
                             {filteredUsers.map(u => (
-                                <tr key={u.id} className="hover:bg-blue-400 text-gray-950">
+                                <tr key={u.id} className="hover:bg-blue-400 text-gray-450">
                                     <td className="p-2 border">{u.email}</td>
                                     <td className="p-2 border">{u.role}</td>
                                     <td className="p-2 border">{u.is_active ? "Active" : "Inactive"}</td>
