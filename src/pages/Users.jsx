@@ -14,14 +14,8 @@ export default function Users() {
         return matchesSearch && matchesRole;
     });
 
-    const handleDelete = async (id) => {
+    const handleDeactivate = async (id) => {
         if (!confirm("Are you sure you want to delete this user?")) return;
-
-        const currentUserId = localStorage.getItem("user_id");
-        if (id === currentUserId) {
-            alert("You cannot delete your own account");
-            return;
-        }
 
         try {
             await API.delete(`/users/${id}`);
@@ -89,10 +83,10 @@ export default function Users() {
                                     <td className="p-2 border">{u.is_active ? "Active" : "Inactive"}</td>
                                     <td className="p-2 border">
                                         <button
-                                            onClick={() => handleDelete(u.id)}
+                                            onClick={() => handleDeactivate(u.id)}
                                             className="bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded flex items-center"
                                         >
-                                            Delete
+                                            Deactivate
                                         </button>
                                     </td>
                                 </tr>
