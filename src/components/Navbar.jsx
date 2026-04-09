@@ -1,4 +1,5 @@
 import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useState } from "react";
 
 
 
@@ -6,6 +7,7 @@ export default function Navbar() {
 
     const navigate = useNavigate();
     const location = useLocation();
+    const [isOpen, setIsOpen] = useState(false);
 
     const logout = () => {
         localStorage.removeItem("token");
@@ -37,7 +39,35 @@ export default function Navbar() {
                     Users
                 </Link>
             </div>
+            <button
+                onClick={() => setIsOpen(!isOpen)} 
+                className="md:hidden text-gray-300 hover:text-white focus:outline-none"
+            >
+                ☰
+            </button>
             
+            {isOpen && (
+                <div className="md:hidden bg-gray-800 text-white flex flex-col items-center gap-4 py-4 absolute top-16 left-0 w-full">
+                    
+                    <Link to="/dashboard" onClick={() => setIsOpen(false)}>
+                    Dashboard
+                    </Link>
+
+                    <Link to="/incidents" onClick={() => setIsOpen(false)}>
+                    Incidents
+                    </Link>
+
+                    <Link to="/reports" onClick={() => setIsOpen(false)}>
+                    Reports
+                    </Link>
+
+                    <Link to="/users" onClick={() => setIsOpen(false)}>
+                    Users
+                    </Link>
+
+                </div>
+            )}
+
             {/* Logout Button */}
             <button onClick={logout} className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors">Logout</button>
         </div>
