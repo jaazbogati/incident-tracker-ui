@@ -38,7 +38,8 @@ export default function Login() {
                             localStorage.setItem("token", res.data.data.token);
                             navigate("/dashboard");
                         } catch (err) {
-                            alert("Failed to login with demo account");
+                            console.log(err.response?.data);
+                            alert(err.response?.data?.message || "Demo login failed");
                         }
                         
                     }}
