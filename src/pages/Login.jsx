@@ -29,13 +29,22 @@ export default function Login() {
                 </button>
                 {error && <p className="text-red-500 mt-3 text-center">{error}</p>}
                 <button
-                    onClick={() => {
-                        setEmail("demo@demo.com");
-                        setPassword("demo123");
+                    onClick={async () => {
+                        try {
+                            const res = await API.post("/auth/login", {
+                                email: "demo@demo.com",
+                                password: "demo123"
+                            });
+                            localStorage.setItem("token", res.data.data.token);
+                            navigate("/dashboard");
+                        } catch (err) {
+                            alert("Failed to login with demo account");
+                        }
+                        
                     }}
                     className="w-full mt-3 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md"
                 >
-                    Use Demo Account
+                    Try Demo Account
                 </button>
             </div>
             
