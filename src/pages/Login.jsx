@@ -28,6 +28,15 @@ export default function Login() {
                     Login
                 </button>
                 {error && <p className="text-red-500 mt-3 text-center">{error}</p>}
+                <button
+                    onClick={() => {
+                        setEmail("demo@demo.com");
+                        setPassword("demo123");
+                    }}
+                    className="w-full mt-3 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md"
+                >
+                    Use Demo Account
+                </button>
             </div>
             
         </div>

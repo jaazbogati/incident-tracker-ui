@@ -1,75 +1,100 @@
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useState } from "react";
 
-
-
 export default function Navbar() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
 
-    const navigate = useNavigate();
-    const location = useLocation();
-    const [isOpen, setIsOpen] = useState(false);
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
 
-    const logout = () => {
-        localStorage.removeItem("token");
-        navigate("/");
-    };
+  const linkClass = (path) =>
+    `transition ${
+      location.pathname === path
+        ? "text-white"
+        : "text-gray-300 hover:text-white"
+    }`;
 
-    const linkClass = (path) => 
-        `hover:text-white cursor-pointer transition-colors ${
-            location.pathname === path ? "text-white" : "text-gray-300 hover:text-white"
-        }`;
-    
+  return (
+    <>
+      {/* NAVBAR */}
+      <div className="bg-gray-900 text-white px-6 py-4 flex justify-between items-center shadow-md">
+        <h1 className="text-lg font-semibold">Incident Dashboard</h1>
 
-    return (
-        <div className="bg-gray-900 text-white px-6 py-4 flex items-center gap-6 justify-between shadow-md">
-            <h1 className="text-lg font-semibold tracking-wide">Incident Dashboard</h1>
-            
-            {/* Nav links */}
-            <div className="hidden md:flex gap-4 text-sm text-gray-300">
-                <Link to="/dashboard" className={linkClass("/dashboard")}>
-                    Dashboard
-                </Link>
-                <Link to="/incidents" className={linkClass("/incidents")}>
-                    Incidents
-                </Link>
-                <Link to="/reports" className={linkClass("/reports")}>
-                    Reports
-                </Link>
-                <Link to="/users" className={linkClass("/users")}>
-                    Users
-                </Link>
-            </div>
-            <button
-                onClick={() => setIsOpen(!isOpen)} 
-                className="md:hidden text-gray-300 hover:text-white focus:outline-none"
-            >
-                ☰
-            </button>
-            
-            {isOpen && (
-                <div className="md:hidden bg-gray-800 text-white flex flex-col items-center gap-4 py-4 absolute top-16 left-0 w-full">
-                    
-                    <Link to="/dashboard" onClick={() => setIsOpen(false)}>
-                    Dashboard
-                    </Link>
-
-                    <Link to="/incidents" onClick={() => setIsOpen(false)}>
-                    Incidents
-                    </Link>
-
-                    <Link to="/reports" onClick={() => setIsOpen(false)}>
-                    Reports
-                    </Link>
-
-                    <Link to="/users" onClick={() => setIsOpen(false)}>
-                    Users
-                    </Link>
-
-                </div>
-            )}
-
-            {/* Logout Button */}
-            <button onClick={logout} className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors">Logout</button>
+        {/* Desktop Menu */}
+        <div className="hidden md:flex gap-4 text-sm">
+          <Link to="/dashboard" className={linkClass("/dashboard")}>
+            Dashboard
+          </Link>
+          <Link to="/incidents" className={linkClass("/incidents")}>
+            Incidents
+          </Link>
+          <Link to="/reports" className={linkClass("/reports")}>
+            Reports
+          </Link>
+          <Link to="/users" className={linkClass("/users")}>
+            Users
+          </Link>
         </div>
-    );
+
+        {/* Right side */}
+        <div className="flex items-center gap-4">
+          {/* Hamburger */}
+          <button
+            onClick={() => setMenuOpen(true)}
+            className="md:hidden text-xl"
+          >
+            ☰
+          </button>
+
+          {/* Logout */}
+          <button
+            onClick={logout}
+            className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+
+      {/* OVERLAY */}
+      {menuOpen && (
+        <div
+          onClick={() => setMenuOpen(false)}
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
+        />
+      )}
+
+      {/* SLIDE-IN MENU */}
+      <div
+        className={`fixed top-0 right-0 h-full w-64 bg-gray-900 text-white z-50 transform transition-transform duration-300
+        ${menuOpen ? "translate-x-0" : "translate-x-full"}`}
+      >
+        <div className="p-6 space-y-4">
+          <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
+            Dashboard
+          </Link>
+          <Link to="/incidents" onClick={() => setMenuOpen(false)}>
+            Incidents
+          </Link>
+          <Link to="/reports" onClick={() => setMenuOpen(false)}>
+            Reports
+          </Link>
+          <Link to="/users" onClick={() => setMenuOpen(false)}>
+            Users
+          </Link>
+
+          <button
+            onClick={logout}
+            className="mt-6 w-full bg-red-500 py-2 rounded"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    </>
+  );
 }
