@@ -89,37 +89,41 @@ export default function Users() {
                 </div>
 
                 {showForm && (
-                    <div className="bg-gray-100 mb-4 p-4 border rounded flex flex-col md:flex-row gap-3 items-center">
-                        <h3 className="text-lg font-semibold mb-2">Create User</h3>
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            value={newUser.email}
-                            onChange={e => setNewUser({...newUser, email: e.target.value})}
-                            className="w-full md:w-auto flex-1 border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={newUser.password}
-                            onChange={e => setNewUser({...newUser, password: e.target.value})}
-                            className="w-full md:w-auto flex-1 border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        <select
-                            value={newUser.role}
-                            onChange={e => setNewUser({...newUser, role: e.target.value})}
-                            className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            <option value="user">User</option>
-                            <option value="admin">Admin</option>
-                            <option value="superuser">SuperUser</option>
-                        </select>
-                        <button
-                            onClick={handleCreateUser}
-                            className="w-full md:w-auto bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
-                        >
-                            Create User
-                        </button>
+                    <div className="bg-gray-100 mb-4 p-4 border rounded flex flex-col gap-3 items-center">
+                        <h3 className="text-lg font-semibold">Create User</h3>
+                        <div className="flex flex-col md:flex-row gap-3">
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                value={newUser.email}
+                                onChange={e => setNewUser({...newUser, email: e.target.value})}
+                                className="w-full md:w-auto flex-1 border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                value={newUser.password}
+                                onChange={e => setNewUser({...newUser, password: e.target.value})}
+                                className="w-full md:w-auto flex-1 border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+                        <div className="flex flex-col md:flex-row gap-3">
+                            <select
+                                value={newUser.role}
+                                onChange={e => setNewUser({...newUser, role: e.target.value})}
+                                className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                                <option value="user">User</option>
+                                <option value="admin">Admin</option>
+                                <option value="superuser">SuperUser</option>
+                            </select>
+                            <button
+                                onClick={handleCreateUser}
+                                className="w-full md:w-auto bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
+                            >
+                                Create User
+                            </button>
+                        </div>
                     </div>
                 )}
 
