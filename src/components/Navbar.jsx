@@ -45,7 +45,7 @@ export default function Navbar() {
           {/* Hamburger */}
           <button
             onClick={() => setMenuOpen(true)}
-            className="md:hidden text-xl"
+            className="md:hidden text-2xl p2"
           >
             ☰
           </button>
@@ -73,7 +73,7 @@ export default function Navbar() {
         className={`fixed top-0 right-0 h-full w-64 bg-gray-900 text-white z-50 transform transition-transform duration-300
         ${menuOpen ? "translate-x-0" : "translate-x-full"}`}
       >
-        <div className="p-6 space-y-4">
+        <div className="flex flex-col gap-6 text-lg">
           <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
             Dashboard
           </Link>
@@ -89,7 +89,7 @@ export default function Navbar() {
 
           <button
             onClick={logout}
-            className="mt-6 w-full bg-red-500 py-2 rounded"
+            className="mt-6 bg-red-500 px-4 py-2 rounded"
           >
             Logout
           </button>
