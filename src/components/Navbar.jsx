@@ -41,7 +41,7 @@ export default function Navbar() {
         </div>
 
         {/* Right side */}
-        <div className="flex items-center gap-4">
+        <div className="flex gap-2 items-center">
           {/* Hamburger */}
           <button
             onClick={() => setMenuOpen(true)}

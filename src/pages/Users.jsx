@@ -89,21 +89,21 @@ export default function Users() {
                 </div>
 
                 {showForm && (
-                    <div className="bg-gray-100 mb-4 p-4 border rounded flex gap-4 items-center">
+                    <div className="bg-gray-100 mb-4 p-4 border rounded flex flex-col md:flex-row gap-4 items-center">
                         <h3 className="text-lg font-semibold mb-2">Create User</h3>
                         <input
                             type="email"
                             placeholder="Email"
                             value={newUser.email}
                             onChange={e => setNewUser({...newUser, email: e.target.value})}
-                            className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full md:w-auto flex-1 border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                         <input
                             type="password"
                             placeholder="Password"
                             value={newUser.password}
                             onChange={e => setNewUser({...newUser, password: e.target.value})}
-                            className="border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full md:w-auto flex-1 border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                         <select
                             value={newUser.role}
@@ -116,7 +116,7 @@ export default function Users() {
                         </select>
                         <button
                             onClick={handleCreateUser}
-                            className="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
+                            className="w-full md:w-auto flex-1 bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
                         >
                             Create User
                         </button>
